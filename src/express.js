@@ -54,6 +54,42 @@ app.post("/api/contacts/:name/:phone/:email", (req, res) => {
   });
 });
 
+app.delete("/api/contacts/:name", (req, res) => {
+  const name = req.params.name;
+
+  fs.readFile("src/contacts.json", (err, data) => {
+    if (err) {
+      res.status(500).type("text").send(err.message);
+    } else {
+      let contacts = JSON.parse(data);
+
+      const filteredContacts = contacts.filter(
+        (contact) => contact.name !== name
+      );
+
+      if (filteredContacts.length === contacts.length) {
+        res.status(404).type("text").send(`Contact ${name} not found.`);
+        return;
+      }
+
+      fs.writeFile(
+        "src/contacts.json",
+        JSON.stringify(filteredContacts),
+        (err) => {
+          if (err) {
+            res.status(500).type("text").send(err.message);
+          } else {
+            res
+              .status(200)
+              .type("text")
+              .send(`Contact ${name} deleted successfully.`);
+          }
+        }
+      );
+    }
+  });
+});
+
 app.listen(port, address, () => {
   console.log(`Server is listening http://${address}:${port}`);
 });
