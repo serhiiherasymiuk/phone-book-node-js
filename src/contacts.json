@@ -1,0 +1,27 @@
+[
+  {
+    "name": "John Smith",
+    "phone": "123-456-7890",
+    "email": "john@example.com"
+  },
+  {
+    "name": "Jane Doe",
+    "phone": "987-654-3210",
+    "email": "jane@example.com"
+  },
+  {
+    "name": "David Johnson",
+    "phone": "555-123-4567",
+    "email": "david@example.com"
+  },
+  {
+    "name": "Sarah Williams",
+    "phone": "111-222-3333",
+    "email": "sarah@example.com"
+  },
+  {
+    "name": "Michael Brown",
+    "phone": "444-555-6666",
+    "email": "michael@example.com"
+  }
+]
