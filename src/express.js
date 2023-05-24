@@ -20,6 +20,40 @@ app.get("/api/contacts", (req, res) => {
   });
 });
 
+app.post("/api/contacts/:name/:phone/:email", (req, res) => {
+  const name = req.params.name;
+  const phone = req.params.phone;
+  const email = req.params.email;
+
+  const newContact = {
+    name: name,
+    phone: phone,
+    email: email,
+  };
+
+  fs.readFile("src/contacts.json", (err, data) => {
+    if (err) {
+      res.status(500).type("text").send(err.message);
+    } else {
+      let contacts = [];
+      if (data) {
+        contacts = JSON.parse(data);
+      }
+      contacts.push(newContact);
+      fs.writeFile("src/contacts.json", JSON.stringify(contacts), (err) => {
+        if (err) {
+          res.status(500).type("text").send(err.message);
+        } else {
+          res
+            .status(201)
+            .type("text")
+            .send(`Contact ${name} added successfully!`);
+        }
+      });
+    }
+  });
+});
+
 app.listen(port, address, () => {
   console.log(`Server is listening http://${address}:${port}`);
 });
