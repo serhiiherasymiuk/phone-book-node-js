@@ -20,6 +20,26 @@ app.get("/api/contacts", (req, res) => {
   });
 });
 
+app.get("/api/random-contact", (req, res) => {
+  fs.readFile("src/contacts.json", (err, data) => {
+    if (err) {
+      res.status(500).type("text").send(err.message);
+    } else {
+      const contacts = JSON.parse(data);
+
+      if (contacts.length === 0) {
+        res.status(404).type("text").send("No contacts found.");
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * contacts.length);
+      const randomContact = contacts[randomIndex];
+
+      res.status(200).type("json").send(randomContact);
+    }
+  });
+});
+
 app.post("/api/contacts/:name/:phone/:email", (req, res) => {
   const name = req.params.name;
   const phone = req.params.phone;
